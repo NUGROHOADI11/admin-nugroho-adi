@@ -14,6 +14,7 @@ import {
   ExternalLink,
   LogOut,
   ShieldCheck,
+  Bot,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -25,6 +26,7 @@ const navigation = [
   { name: 'Skills & Toolkit', href: '/skills', icon: Wrench },
   { name: 'Messages', href: '/messages', icon: Mail },
   { name: 'Profile & Bio', href: '/profile', icon: UserCheck },
+  { name: 'AI Knowledge Base', href: '/knowledge', icon: Bot },
 ];
 
 export default function Sidebar() {
