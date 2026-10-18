@@ -1,5 +1,6 @@
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+export const FALLBACK_API_URL = 'https://be-nugroho-adi.vercel.app/api';
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || FALLBACK_API_URL;
 
 export function getAuthToken(): string | null {
   if (typeof window === 'undefined') return null;
@@ -33,10 +34,32 @@ async function request<T>(
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...options,
+      headers,
+    });
+  } catch (err: any) {
+    // If connection to custom/local API_BASE_URL failed and it differs from fallback, retry against live backend
+    if (API_BASE_URL !== FALLBACK_API_URL) {
+      try {
+        console.warn(`[API] Connection to ${API_BASE_URL} failed, retrying with ${FALLBACK_API_URL}...`);
+        response = await fetch(`${FALLBACK_API_URL}${endpoint}`, {
+          ...options,
+          headers,
+        });
+      } catch (fallbackErr: any) {
+        throw new Error(
+          `Cannot connect to backend server (${API_BASE_URL} / ${FALLBACK_API_URL}). Please verify your backend is running or check internet connectivity.`
+        );
+      }
+    } else {
+      throw new Error(
+        `Failed to connect to backend API (${API_BASE_URL}). Please check your internet connectivity.`
+      );
+    }
+  }
 
   if (response.status === 401 && typeof window !== 'undefined') {
     removeAuthToken();

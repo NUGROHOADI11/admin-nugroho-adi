@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
+import { API_BASE_URL } from '@/lib/api';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -125,7 +126,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-[11px] text-slate-500 mt-6">
-          Backend API connected to <code className="text-slate-400">:5000/api</code>
+          Connected to <code className="text-emerald-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">{API_BASE_URL}</code>
         </p>
       </div>
     </div>

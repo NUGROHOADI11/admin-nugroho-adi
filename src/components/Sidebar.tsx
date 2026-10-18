@@ -15,11 +15,13 @@ import {
   LogOut,
   ShieldCheck,
   Bot,
+  Briefcase,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { name: 'Job Matcher & CV', href: '/jobs', icon: Briefcase },
   { name: 'Projects', href: '/projects', icon: FolderGit2 },
   { name: 'Timeline / Exp', href: '/experiences', icon: Milestone },
   { name: 'Achievements', href: '/achievements', icon: Award },
