@@ -328,8 +328,13 @@ Return pure valid JSON matching this exact structure:
 }
 `;
 
-    // Try primary model gemini-3.5-flash with fallbacks
-    const candidateModels = ['gemini-3.5-flash', 'gemini-3.8-flash', 'gemini-flash-latest'];
+    // Candidate models with fast failover if one experiences temporary demand spikes
+    const candidateModels = [
+      'gemini-2.5-flash',
+      'gemini-3.5-flash',
+      'gemini-flash-latest',
+      'gemini-3.1-flash-lite',
+    ];
     let lastError: unknown = null;
     let generatedText = '';
 
