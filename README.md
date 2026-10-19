@@ -12,7 +12,7 @@ Frontend **Admin Content Management System (CMS)** berbasis **Next.js 16 (App Ro
 - **Achievements & Awards (`/achievements`)**: CRUD sertifikasi dan penghargaan kompetisi dengan pilihan preset warna highlight dan ikon.
 - **Skills & Toolkit Manager (`/skills`)**: Pengelolaan daftar keahlian teknis berdasarkan kategori (Mobile, Web, Cloud, Language, AI, DevOps, Database, Design).
 - **Inbound Inquiries Inbox (`/messages`)**: Kotak masuk pesan dari form kontak portofolio dengan drawer pembaca pesan, penanda status (`UNREAD`, `READ`, `REPLIED`, `ARCHIVED`), dan kolom catatan tindak lanjut internal (*internal reply notes*).
-- **Profile & Bio Settings (`/profile`)**: Kustomisasi bio, status ketersediaan kerja, teks heading hero, peran kepemimpinan, badges gaya hidup, kutipan filosofi (*quote*), dan akun media sosial.
+- **Job Matcher & Harvard CV Suite (`/jobs`)**: Pencarian lowongan kerja tech Indonesia (LinkedIn, Jobstreet, Kalibrr, Glints) dengan filter level Beginner/1-3 tahun, generator CV Standar Harvard (2 Lembar) otomatis via Gemini AI, direct PDF export, copy teks ATS, dan approval outreach 1-klik ke recruiter LinkedIn serta email pitch.
 - **Dukungan Dwibahasa (Bilingual EN & ID)**: Setiap modal input menyediakan tab switcher instan antara konten Bahasa Inggris dan Bahasa Indonesia.
 - **Otentikasi & Keamanan JWT**: Dilengkapi halaman login modern dengan tombol *auto-fill demo credentials*, pengecekan sesi aktif via token Bearer, dan proteksi rute otomatis.
 
