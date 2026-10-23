@@ -15,7 +15,7 @@ import {
   RefreshCw,
   Cpu,
 } from 'lucide-react';
-import { KnowledgeItem } from '@/lib/knowledge';
+import { api, KnowledgeItem } from '@/lib/api';
 
 interface FormData {
   id?: number;
@@ -56,13 +56,7 @@ export default function KnowledgePage() {
     try {
       setLoading(true);
       setError('');
-      const res = await fetch('/api/knowledge');
-      const json = await res.json();
-      if (json.success) {
-        setItems(json.data || []);
-      } else {
-        throw new Error(json.error || 'Gagal mengambil data knowledge');
-      }
+      setItems(await api.knowledge.getAll());
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -103,15 +97,10 @@ export default function KnowledgePage() {
     }
 
     try {
-      const res = await fetch(`/api/knowledge?id=${id}`, { method: 'DELETE' });
-      const json = await res.json();
-      if (json.success) {
-        setSuccessMsg('Chunk berhasil dihapus.');
-        setTimeout(() => setSuccessMsg(''), 3000);
-        setItems((prev) => prev.filter((i) => i.id !== id));
-      } else {
-        throw new Error(json.error || 'Gagal menghapus chunk');
-      }
+      await api.knowledge.delete(id);
+      setSuccessMsg('Chunk berhasil dihapus.');
+      setTimeout(() => setSuccessMsg(''), 3000);
+      setItems((prev) => prev.filter((i) => i.id !== id));
     } catch (err) {
       alert(`Gagal menghapus: ${err instanceof Error ? err.message : String(err)}`);
     }
@@ -128,21 +117,15 @@ export default function KnowledgePage() {
       setSaving(true);
       setError('');
 
-      const method = editingItem ? 'PUT' : 'POST';
-      const res = await fetch('/api/knowledge', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: editingItem?.id,
-          category: formData.category,
-          heading: formData.heading,
-          content: formData.content,
-        }),
-      });
-
-      const json = await res.json();
-      if (!json.success) {
-        throw new Error(json.error || 'Gagal menyimpan knowledge chunk.');
+      const payload = {
+        category: formData.category,
+        heading: formData.heading,
+        content: formData.content,
+      };
+      if (editingItem) {
+        await api.knowledge.update(editingItem.id, payload);
+      } else {
+        await api.knowledge.create(payload);
       }
 
       setSuccessMsg(

@@ -17,6 +17,20 @@ export function removeAuthToken() {
   if (typeof window !== 'undefined') {
     localStorage.removeItem('admin_token');
   }
+
+  export interface KnowledgeItem {
+    id: number;
+    content: string;
+    metadata: {
+      category: string;
+      heading: string;
+      title?: string;
+      source?: string;
+      embeddingModel?: string;
+      embeddingDimension?: number;
+    };
+    created_at?: string;
+  }
 }
 
 async function request<T>(
@@ -218,6 +232,33 @@ export const api = {
       request<any>('/profile', {
         method: 'PATCH',
         body: JSON.stringify(data),
+      }),
+  },
+
+  knowledge: {
+    getAll: () => request<KnowledgeItem[]>('/knowledge'),
+    create: (data: {
+      category: string;
+      heading: string;
+      content: string;
+    }) => request<KnowledgeItem>('/knowledge', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+    update: (
+      id: number,
+      data: { category: string; heading: string; content: string },
+    ) => request<KnowledgeItem>(`/knowledge/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+    delete: (id: number) =>
+      request<{ message: string; id: number }>(`/knowledge/${id}`, {
+        method: 'DELETE',
+      }),
+    reindex: () =>
+      request<{ count: number; model: string }>('/knowledge/reindex', {
+        method: 'POST',
       }),
   },
 };
